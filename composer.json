@@ -1,0 +1,25 @@
+{
+  "name": "phpzm/telegrambot",
+  "minimum-stability": "dev",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "William Correa",
+      "email": "wilcorrea@gmail.com"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/phpzm/phpee"
+    }
+  ],
+  "require": {
+    "phpzm/phpee": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "app/"
+    }
+  }
+}
