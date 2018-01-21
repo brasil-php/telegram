@@ -30,5 +30,4 @@ return function (Bot $bot) {
             ['chat_id' => $chatId, 'reply_to_message_id' => $messageId, 'text' => 'Cool']
         );
     });
-
 };
