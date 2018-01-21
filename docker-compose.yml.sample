@@ -9,11 +9,13 @@ services:
     container_name: bot_wilcorrea_rocks # don't change
     networks:
       - bot_wilcorrea_rocks # don't change
-    image: ambientum/php:7.0-apache
+    image: richarvey/nginx-php-fpm:latest
     restart: always
     volumes:
-      - .:/var/www/app
-      - ./.docker/php/etc/php/7.0/mods-available/xdebug.ini:/etc/php/7.0/mods-available/xdebug.ini
+      - .:/var/www
+      - ./.docker/etc/php/7.0/mods-available/xdebug.ini:/etc/php/7.0/mods-available/xdebug.ini
+      - ./.docker/etc/nginx/sites-enabled/default.conf:/etc/nginx/sites-enabled/default.conf
+
     ports:
       - "8080:80"
     expose:
