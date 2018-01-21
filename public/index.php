@@ -7,6 +7,7 @@ $body = json_decode($content, true);
 if (!$body) {
     exit;
 }
+file_put_contents('log.json', $content);
 if (!isset($body['message'])) {
     exit;
 }

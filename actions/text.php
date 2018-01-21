@@ -4,7 +4,7 @@ use App\Telegram\Bot;
 
 return function (Bot $bot) {
     // start command
-    $bot->add('^/start', function ($message) {
+    $bot->add('^\/start', function ($message) {
         $chatId = $message['chat']['id'];
         $parameters = [
             'chat_id' => $chatId,
