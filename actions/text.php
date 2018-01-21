@@ -1,5 +1,7 @@
 <?php
 
+use App\Actions\Hello;
+use App\Actions\OtherWise;
 use App\Telegram\Bot;
 
 return function (Bot $bot) {
@@ -14,21 +16,7 @@ return function (Bot $bot) {
 //        $this->apiRequestJson('sendMessage', $parameters);
 //    });
 
-    $bot->add('^Hello|^Hi', function ($bot, $message) {
-        $chatId = $message['chat']['id'];
-        /** @var Bot $bot */
-        return $bot->apiRequest(
-            'sendMessage', ['chat_id' => $chatId, "text" => 'Nice to meet you']
-        );
-    });
+    $bot->add('^Hello|^Hi', Hello::class);
 
-    $bot->add('.*', function ($bot, $message) {
-        /** @var Bot $bot */
-        $chatId = $message['chat']['id'];
-        $messageId = $message['message_id'];
-        return $bot->apiRequestWebhook(
-            'sendMessage',
-            ['chat_id' => $chatId, 'reply_to_message_id' => $messageId, 'text' => 'Cool']
-        );
-    });
+    $bot->add('.*', OtherWise::class);
 };

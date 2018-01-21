@@ -2,16 +2,6 @@
 
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-$content = file_get_contents("php://input");
-$body = json_decode($content, true);
-if (!$body) {
-    exit;
-}
-file_put_contents('log.json', $content);
-if (!isset($body['message'])) {
-    exit;
-}
-
 use App\Telegram\Bot;
 
 try {
@@ -21,6 +11,15 @@ try {
             'setWebhook',
             ['url' => isset($argv[1]) && $argv[1] == 'delete' ? '' : env('WEBHOOK_URL')]
         );
+        exit;
+    }
+    $content = file_get_contents("php://input");
+    $body = json_decode($content, true);
+    if (!$body) {
+        exit;
+    }
+    file_put_contents('log.json', $content);
+    if (!isset($body['message'])) {
         exit;
     }
     $telegram
