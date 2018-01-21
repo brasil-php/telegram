@@ -15,7 +15,7 @@ services:
       - .:/var/www/app
       - ./.docker/php/etc/php/7.0/mods-available/xdebug.ini:/etc/php/7.0/mods-available/xdebug.ini
     ports:
-      - "8080:8080"
+      - "8080:80"
     expose:
       - "9090"
     environment:
