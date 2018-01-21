@@ -6,11 +6,8 @@ use App\Telegram\Bot;
 
 try {
     $telegram = new Bot(env('BOT_TOKEN'));
-    if (php_sapi_name() == 'cli') {
-        $telegram->apiRequest(
-            'setWebhook',
-            ['url' => isset($argv[1]) && $argv[1] == 'delete' ? '' : env('WEBHOOK_URL')]
-        );
+    if (php_sapi_name() === 'cli') {
+        $telegram->remove(isset($argv[1]) && $argv[1] == 'delete' ? '' : env('WEBHOOK_URL'));
         exit;
     }
     $content = file_get_contents("php://input");
@@ -18,7 +15,7 @@ try {
     if (!$body) {
         exit;
     }
-    file_put_contents('log.json', $content);
+
     if (!isset($body['message'])) {
         exit;
     }

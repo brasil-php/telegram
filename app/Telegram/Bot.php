@@ -4,6 +4,8 @@ namespace App\Telegram;
 
 use function class_exists;
 use Exception;
+use function is_callable;
+use function is_string;
 use Php\File;
 
 /**
@@ -121,12 +123,21 @@ class Bot
         }
 
         $callable = $match->get('callable');
-        if (class_exists($callable)) {
+        if (!is_callable($callable) && is_string($callable) && class_exists($callable)) {
             $callable = new $callable;
         }
 
         return call_user_func_array(
             $callable, [$this, $message, $match]
         );
+    }
+
+    /**
+     * @param $url
+     * @throws Exception
+     */
+    public function remove($url)
+    {
+        $this->apiRequest('setWebhook', ['url' => $url]);
     }
 }
