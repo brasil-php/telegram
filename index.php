@@ -3,6 +3,7 @@
 $token = '518711564:AAHdIiBaUaLo3OAi3r8LKpxjqRi-eyKOE7k';
 define('BOT_TOKEN', $token);
 define('API_URL', "https://api.telegram.org/bot{$token}/");
+define('WEBHOOK_URL', 'https://bot.phpzm.rocks');
 
 function apiRequestWebhook($method, $parameters) {
   if (!is_string($method)) {
@@ -139,9 +140,6 @@ function processMessage($message) {
     apiRequest("sendMessage", array('chat_id' => $chat_id, "text" => 'I understand only text messages'));
   }
 }
-
-
-define('WEBHOOK_URL', 'https://my-site.example.com/secret-path-for-webhooks/');
 
 if (php_sapi_name() == 'cli') {
   // if run from console, set or delete webhook
