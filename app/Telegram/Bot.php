@@ -119,6 +119,8 @@ class Bot
             return false;
         }
 
-        return call_user_func_array($match->get('callable'), [$message, $match]);
+        return call_user_func_array(
+            $match->get('callable'), [$this, $message, $match]
+        );
     }
 }
