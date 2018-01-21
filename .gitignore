@@ -1,4 +1,5 @@
 /.idea
-/.env
+/public/log.json
 /vendor
+/.env
 /docker-compose.yml
