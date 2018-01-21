@@ -3,11 +3,11 @@
 require dirname(__DIR__) . '/vendor/autoload.php';
 
 $content = file_get_contents("php://input");
-$update = json_decode($content, true);
-if (!$update) {
+$body = json_decode($content, true);
+if (!$body) {
     exit;
 }
-if (isset($update["message"])) {
+if (!isset($body['message'])) {
     exit;
 }
 
@@ -24,7 +24,7 @@ try {
     }
     $telegram
         ->actions(dirname(__DIR__) . '/routes/message.php')
-        ->message($update["message"]);
+        ->text($body);
 
 } catch (Exception $e) {
     error_log($e);

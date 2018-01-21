@@ -101,12 +101,13 @@ class Bot
     }
 
     /**
-     * @param array $message
+     * @param array $body
      * @return bool
      * @throws Exception
      */
-    function message($message)
+    function text($body)
     {
+        $message = $body['message'];
         $chatId = $message['chat']['id'];
         if (!isset($message['text'])) {
             return $this->apiRequest(
@@ -115,7 +116,8 @@ class Bot
             );
         }
 
-        $match = $this->match($message);
+        $text = $message['text'];
+        $match = $this->match($text);
         if (is_null($match)) {
             return false;
         }
