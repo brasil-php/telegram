@@ -23,7 +23,7 @@ try {
         exit;
     }
     $telegram
-        ->actions(dirname(__DIR__) . '/routes/message.php')
+        ->actions(dirname(__DIR__) . '/actions/message.php')
         ->text($body);
 
 } catch (Exception $e) {

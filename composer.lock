@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpzm/phpee.git",
-                "reference": "a9bd2f8e0046b8bc848ee3467d062c8eead3f8be"
+                "reference": "e36836442035090ab73ffa4c937b6d2cb70e0962"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpzm/phpee/zipball/a9bd2f8e0046b8bc848ee3467d062c8eead3f8be",
-                "reference": "a9bd2f8e0046b8bc848ee3467d062c8eead3f8be",
+                "url": "https://api.github.com/repos/phpzm/phpee/zipball/e36836442035090ab73ffa4c937b6d2cb70e0962",
+                "reference": "e36836442035090ab73ffa4c937b6d2cb70e0962",
                 "shasum": ""
             },
             "type": "library",
@@ -43,7 +43,7 @@
                 "source": "https://github.com/phpzm/phpee/tree/master",
                 "issues": "https://github.com/phpzm/phpee/issues"
             },
-            "time": "2018-01-21T13:58:33+00:00"
+            "time": "2018-01-21T17:58:52+00:00"
         }
     ],
     "packages-dev": [],

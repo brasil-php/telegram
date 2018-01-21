@@ -3,9 +3,6 @@
 namespace App\Telegram;
 
 use Exception;
-use function is_array;
-use function is_callable;
-use function is_null;
 use Php\File;
 
 /**
