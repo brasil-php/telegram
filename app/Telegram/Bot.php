@@ -2,6 +2,7 @@
 
 namespace App\Telegram;
 
+use function class_exists;
 use Exception;
 use Php\File;
 
@@ -119,8 +120,13 @@ class Bot
             return false;
         }
 
+        $callable = $match->get('callable');
+        if (class_exists($callable)) {
+            $callable = new $callable;
+        }
+
         return call_user_func_array(
-            $match->get('callable'), [$this, $message, $match]
+            $callable, [$this, $message, $match]
         );
     }
 }

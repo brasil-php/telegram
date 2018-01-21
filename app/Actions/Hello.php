@@ -28,5 +28,4 @@ class Hello
             'sendMessage', ['chat_id' => $chatId, "text" => 'Nice to meet you']
         );
     }
-
 }
