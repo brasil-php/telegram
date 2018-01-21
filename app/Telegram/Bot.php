@@ -61,7 +61,7 @@ class Bot
 
         if ($httpCode >= 500) {
             // do not wat to DDOS server if something goes wrong
-            sleep(10);
+            // sleep(10);
             return false;
         }
 

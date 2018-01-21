@@ -34,7 +34,7 @@ trait RequestJson
 
         $parameters["method"] = $method;
 
-        $handle = curl_init($this->api);
+        $handle = curl_init("$this->api/");
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($handle, CURLOPT_TIMEOUT, 60);

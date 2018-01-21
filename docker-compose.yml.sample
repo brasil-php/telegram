@@ -13,7 +13,7 @@ services:
     restart: always
     volumes:
       - .:/var/www
-      - ./.docker/etc/php/7.0/mods-available/xdebug.ini:/etc/php/7.0/mods-available/xdebug.ini
+      - ./.docker/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
       - ./.docker/etc/nginx/sites-enabled/default.conf:/etc/nginx/sites-enabled/default.conf
 
     ports:
