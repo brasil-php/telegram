@@ -22,7 +22,7 @@ trait Router
      */
     public function add($pattern, $callable, $options = [])
     {
-        $pattern = '/^' . str_replace('/', '\/', $pattern) . '$/';
+        $pattern = '/' . str_replace('/', '\/', $pattern) . '$/';
         $this->register($pattern, $callable, $options);
     }
 
