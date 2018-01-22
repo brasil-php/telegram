@@ -56,7 +56,9 @@ class Start
         $parameters = [
             'chat_id' => $chatId,
             "text" => 'Hello',
-            'reply_markup' => ['keyboard' => [['Hello', 'Hi']], 'one_time_keyboard' => true, 'resize_keyboard' => true]
+            'reply_markup' => [
+                'keyboard' => [['Hello', 'Hi']], 'one_time_keyboard' => true, 'resize_keyboard' => true
+            ]
         ];
         $bot->apiRequestJson('sendMessage', $parameters);
     }
