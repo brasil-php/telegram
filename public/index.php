@@ -24,6 +24,7 @@ try {
 
 } catch (Exception $e) {
     try {
+        $telegram->delete();
         $telegram->reply("Error: {$e->getMessage()}");
     } catch (Exception $e) {
     }

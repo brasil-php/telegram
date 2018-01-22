@@ -23,5 +23,17 @@ return function (Bot $bot) {
         return $bot->reply("That is easy, the answer is `{$sum}`");
     });
 
+    $bot->add('delete:(?<message>.*)', function ($bot, $match) {
+        /** @var Bot $bot */
+        /** @var Match $match */
+        $parameters = $match->get('$parameters');
+        $message = '';
+        if (isset($parameters['message'])) {
+            $message = $parameters['message'];
+        }
+        $bot->delete();
+        return $bot->reply("The message `{$message}` was deleted");
+    });
+
     $bot->add('.*', OtherWise::class);
 };

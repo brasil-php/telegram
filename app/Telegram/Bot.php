@@ -183,4 +183,15 @@ class Bot
     {
         return $this->apiRequestJson('sendMessage', $parameters);
     }
+
+    /**
+     * @return bool
+     * @throws Exception
+     */
+    public function delete()
+    {
+        $chatId = $this->body['message']['chat']['id'];
+        $messageId = $this->body['message']['message_id'];
+        return $this->apiRequest('deleteMessage', ['chat_id' => $chatId, 'message_id' => $messageId]);
+    }
 }
