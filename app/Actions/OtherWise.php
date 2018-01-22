@@ -13,17 +13,11 @@ class OtherWise
 {
     /**
      * @param Bot $bot
-     * @param array $message
      * @return mixed
      * @throws Exception
      */
-    public function __invoke($bot, $message)
+    public function __invoke($bot)
     {
-        $chatId = $message['chat']['id'];
-        $messageId = $message['message_id'];
-        return $bot->apiRequest(
-            'sendMessage',
-            ['chat_id' => $chatId, 'reply_to_message_id' => $messageId, 'text' => 'Cool']
-        );
+        return $bot->replyTo('Cool');
     }
 }

@@ -13,7 +13,8 @@ $telegram = new Bot(env('BOT_TOKEN'));
 Com estas instruções acima temos uma instância do Bot disponível para adicionar os comandos.
 O exemplo abaixo mostra como podemos adicionar um comando para o Bot para ao receber uma mensagem que comece com `Hello` ou `Hi` ele responda `Nice to meet you`.
 ```php
-$bot->add('^Hello|^Hi', function($bot, $message) {
+$bot->add('^Hello|^Hi', function($bot, $match) {
+    $message = $match->get('$message');
     $chatId = $message['chat']['id'];
     /** @var Bot $bot */
     return $bot->apiRequest(
@@ -45,11 +46,12 @@ class Start
 {
     /**
      * @param Bot $bot
-     * @param array $message
+     * @param array $match
      * @throws Exception
      */
-    function __invoke($bot, $message)
+    function __invoke($bot, $match)
     {
+        $message = $match->get('$message');
         $chatId = $message['chat']['id'];
         $parameters = [
             'chat_id' => $chatId,
@@ -75,4 +77,29 @@ use App\Telegram\Bot;
 return function (Bot $bot) {
     $bot->add('.*', OtherWise::class);
 };
+```
+
+### API simplificada
+
+A classe Bot possui alguns métodos simplificadas como o reply ou replyTo.
+```php
+$bot->add('^Hello|^Hi', function($bot) {
+    return $bot->reply('Nice to meet you');
+});
+```
+
+### Interagindo com a mensagem
+
+Criando grupos de expressão regular é possível interagir com a mensagem de forma simples e rápida
+```php
+$bot->add('How much is (.*) \+ (.*)\?', function ($bot, $match) {
+    /** @var Bot $bot */
+    /** @var Match $match */
+    $parameters = $match->get('$parameters');
+    if (count($parameters) !== 2) {
+        return $bot->reply('Can`t resolve this math');
+    }
+    $sum = $parameters[0] + $parameters[1];
+    return $bot->reply("That is easy, the answer is `{$sum}`");
+});
 ```

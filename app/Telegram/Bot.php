@@ -30,6 +30,11 @@ class Bot
     private $api;
 
     /**
+     * @var array
+     */
+    private $body;
+
+    /**
      * Telegram constructor.
      * @param string $token
      */
@@ -107,7 +112,8 @@ class Bot
      */
     function text($body)
     {
-        $message = $body['message'];
+        $this->body = $body;
+        $message = $this->body['message'];
         $chatId = $message['chat']['id'];
         if (!isset($message['text'])) {
             return $this->apiRequest(
@@ -116,19 +122,18 @@ class Bot
             );
         }
 
-        $text = $message['text'];
-        $match = $this->match($text);
+        $match = $this->match($message);
         if (is_null($match)) {
             return false;
         }
 
-        $callable = $match->get('callable');
+        $callable = $match->get('$callable');
         if (!is_callable($callable) && is_string($callable) && class_exists($callable)) {
             $callable = new $callable;
         }
 
         return call_user_func_array(
-            $callable, [$this, $message, $match]
+            $callable, [$this, $match, $message]
         );
     }
 
@@ -139,5 +144,43 @@ class Bot
     public function remove($url)
     {
         $this->apiRequest('setWebhook', ['url' => $url]);
+    }
+
+    /**
+     * @param string $text
+     * @return bool
+     * @throws Exception
+     */
+    public function reply($text)
+    {
+        $chatId = $this->body['message']['chat']['id'];
+        return $this->apiRequest(
+            'sendMessage', ['chat_id' => $chatId, 'text' => $text]
+        );
+    }
+
+    /**
+     * @param string $text
+     * @return bool
+     * @throws Exception
+     */
+    public function replyTo($text)
+    {
+        $chatId = $this->body['message']['chat']['id'];
+        $messageId = $this->body['message']['message_id'];
+        return $this->apiRequest(
+            'sendMessage',
+            ['chat_id' => $chatId, 'reply_to_message_id' => $messageId, 'text' => $text]
+        );
+    }
+
+    /**
+     * @param array $parameters
+     * @return bool|mixed
+     * @throws Exception
+     */
+    public function answer($parameters)
+    {
+        return $this->apiRequestJson('sendMessage', $parameters);
     }
 }

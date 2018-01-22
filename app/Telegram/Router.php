@@ -34,23 +34,24 @@ trait Router
     private function register($pattern, $callable, $options)
     {
         $this->routes[$pattern] = array_merge([
-            'pattern' => $pattern,
-            'callable' => $callable,
+            '$pattern' => $pattern,
+            '$callable' => $callable,
         ], $options);
     }
 
     /**
-     * @param $content
+     * @param array $message
      * @return Match|null
      */
-    public function match($content)
+    public function match($message)
     {
+        $subject = $message['text'];
         // search by $match
         foreach ($this->routes as $pattern => $candidate) {
-            if (preg_match($pattern, $content, $parameters)) {
+            if (preg_match($pattern, $subject, $parameters)) {
                 array_shift($parameters);
                 $properties = array_merge(
-                    ['parameters' => $parameters],
+                    ['$parameters' => $parameters, '$message' => $message],
                     $candidate
                 );
                 return Match::make($properties);

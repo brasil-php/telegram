@@ -2,6 +2,7 @@
 
 namespace App\Actions;
 
+use App\Model\Match;
 use App\Telegram\Bot;
 use Exception;
 
@@ -13,10 +14,12 @@ class Start
 {
     /**
      * @param Bot $bot
+     * @param Match $match
      * @param array $message
      * @throws Exception
+     * @SuppressWarnings(Unused)
      */
-    function __invoke($bot, $message)
+    function __invoke($bot, $match, $message)
     {
         $chatId = $message['chat']['id'];
         $parameters = [
@@ -24,6 +27,6 @@ class Start
             "text" => 'Hello',
             'reply_markup' => ['keyboard' => [['Hello', 'Hi']], 'one_time_keyboard' => true, 'resize_keyboard' => true]
         ];
-        $bot->apiRequestJson('sendMessage', $parameters);
+        $bot->answer($parameters);
     }
 }
