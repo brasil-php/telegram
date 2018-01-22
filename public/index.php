@@ -10,8 +10,7 @@ try {
         $telegram->remove(isset($argv[1]) && $argv[1] == 'delete' ? '' : env('WEBHOOK_URL'));
         exit;
     }
-    $content = file_get_contents("php://input");
-    $body = json_decode($content, true);
+    $body = json_decode(file_get_contents("php://input"), true);
     if (!$body) {
         exit;
     }
