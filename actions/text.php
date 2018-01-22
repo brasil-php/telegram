@@ -12,7 +12,7 @@ return function (Bot $bot) {
 
     $bot->add('^Hello|^Hi', Hello::class);
 
-    $bot->add('How much is (?<first>.*) \+ (?<second>.*)\?', function ($bot, $match) {
+    $bot->add('.* (?<first>.*) \+ (?<second>.*)\?', function ($bot, $match) {
         /** @var Bot $bot */
         /** @var Match $match */
         $parameters = $match->get('$parameters');

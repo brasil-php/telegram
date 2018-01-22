@@ -23,5 +23,9 @@ try {
         ->text($body);
 
 } catch (Exception $e) {
+    try {
+        $telegram->reply("Error: {$e->getMessage()}");
+    } catch (Exception $e) {
+    }
     error_log($e);
 }
