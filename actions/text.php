@@ -12,14 +12,14 @@ return function (Bot $bot) {
 
     $bot->add('^Hello|^Hi', Hello::class);
 
-    $bot->add('How much is (.*) \+ (.*)\?', function ($bot, $match) {
+    $bot->add('How much is (?<first>.*) \+ (?<second>.*)\?', function ($bot, $match) {
         /** @var Bot $bot */
         /** @var Match $match */
         $parameters = $match->get('$parameters');
-        if (count($parameters) !== 2) {
+        if (!isset($parameters['first']) or !isset($parameters['second'])) {
             return $bot->reply('Can`t resolve this math');
         }
-        $sum = $parameters[0] + $parameters[1];
+        $sum = $parameters['first'] + $parameters['second'];
         return $bot->reply("That is easy, the answer is `{$sum}`");
     });
 
