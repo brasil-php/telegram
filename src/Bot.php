@@ -1,16 +1,13 @@
 <?php
 
-namespace App\Telegram;
+namespace Telegram;
 
-use function class_exists;
 use Exception;
-use function is_callable;
-use function is_string;
 use Php\File;
 
 /**
- * Class Telegram
- * @package App
+ * Class Bot
+ * @package Telegram
  */
 class Bot
 {
@@ -66,7 +63,7 @@ class Bot
 
         if ($httpCode >= 500) {
             // do not wat to DDOS server if something goes wrong
-            // sleep(10);
+            sleep(10);
             return false;
         }
 
@@ -110,7 +107,7 @@ class Bot
      * @return bool
      * @throws Exception
      */
-    function text($body)
+    function handle($body)
     {
         $this->body = $body;
         $message = $this->body['message'];

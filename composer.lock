@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1df85336c3583d778c3ce6dff213bffd",
+    "content-hash": "be1817aed1aaac3f3316a17538303d86",
     "packages": [
         {
             "name": "phpzm/phpee",
-            "version": "dev-master",
+            "version": "1.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpzm/phpee.git",
-                "reference": "e36836442035090ab73ffa4c937b6d2cb70e0962"
+                "reference": "88e21ab4e8bd4f50e4cfe5a149b2538d77b0b775"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpzm/phpee/zipball/e36836442035090ab73ffa4c937b6d2cb70e0962",
-                "reference": "e36836442035090ab73ffa4c937b6d2cb70e0962",
+                "url": "https://api.github.com/repos/phpzm/phpee/zipball/88e21ab4e8bd4f50e4cfe5a149b2538d77b0b775",
+                "reference": "88e21ab4e8bd4f50e4cfe5a149b2538d77b0b775",
                 "shasum": ""
             },
             "type": "library",
@@ -29,6 +29,7 @@
                     "bootstrap/index.php"
                 ]
             },
+            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -39,19 +40,13 @@
                 }
             ],
             "description": "Library with same handlers to make php easier",
-            "support": {
-                "source": "https://github.com/phpzm/phpee/tree/master",
-                "issues": "https://github.com/phpzm/phpee/issues"
-            },
-            "time": "2018-01-21T17:58:52+00:00"
+            "time": "2018-01-28T12:43:25+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "dev",
-    "stability-flags": {
-        "phpzm/phpee": 20
-    },
+    "stability-flags": [],
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

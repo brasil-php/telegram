@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Model;
+namespace Telegram\Model;
 
 /**
  * Class Match
- * @package App\Model
+ * @package Telegram\Model
  */
 class Match
 {

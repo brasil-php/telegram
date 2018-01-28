@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Telegram;
+namespace Telegram;
 
 /**
  * Trait RequestWebHook
- * @package App
+ * @package Telegram
  */
 trait RequestWebHook
 {

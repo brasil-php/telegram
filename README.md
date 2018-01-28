@@ -28,11 +28,11 @@ O bot conta com métodos para lidar com os tipos de mensagem de forma separada.
 $body = json_decode(file_get_contents("php://input"), true);
 
 // add actions to bot
-$bot->add(/* regex on message */, /* callable */);
-$bot->add(/* regex on message */, /* callable */);
+$bot->text(/* regex on message */, /* callable */);
+$bot->text(/* regex on message */, /* callable */);
 
 // apply the actions
-$telegram->text($body);
+$telegram->handle($body);
 ```
 
 ### Exemplos mais elaborados
@@ -40,7 +40,7 @@ $telegram->text($body);
 O método add suporta qualquer callable (php.net/callable) facilitando a criação dos comandos e permitindo uma organização das instruções.
 
 ```php
-$bot->add('/start', Start::class);
+$bot->text('/start', Start::class);
 
 class Start
 {
@@ -77,7 +77,7 @@ use App\Actions\OtherWise;
 use App\Telegram\Bot;
 
 return function (Bot $bot) {
-    $bot->add('.*', OtherWise::class);
+    $bot->text('.*', OtherWise::class);
 };
 ```
 
@@ -85,7 +85,7 @@ return function (Bot $bot) {
 
 A classe Bot possui alguns métodos simplificadas como o reply ou replyTo.
 ```php
-$bot->add('^Hello|^Hi', function($bot) {
+$bot->text('^Hello|^Hi', function($bot) {
     return $bot->reply('Nice to meet you');
 });
 ```
@@ -94,7 +94,7 @@ $bot->add('^Hello|^Hi', function($bot) {
 
 Criando grupos de expressão regular é possível interagir com a mensagem de forma simples e rápida
 ```php
-$bot->add('How much is (.*) \+ (.*)\?', function ($bot, $match) {
+$bot->text('How much is (.*) \+ (.*)\?', function ($bot, $match) {
     /** @var Bot $bot */
     /** @var Match $match */
     $parameters = $match->get('$parameters');

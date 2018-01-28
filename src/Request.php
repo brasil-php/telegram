@@ -1,23 +1,22 @@
 <?php
 
-namespace App\Telegram;
+namespace Telegram;
 
 use Exception;
 
 /**
- * Trait RequestJson
- * @package App
+ * Trait Request
+ * @package Telegram
  */
-trait RequestJson
+trait Request
 {
-
     /**
-     * @param $method
-     * @param $parameters
-     * @return bool|mixed
+     * @param string $method
+     * @param array $parameters
+     * @return bool
      * @throws Exception
      */
-    function apiRequestJson($method, $parameters)
+    function apiRequest($method, $parameters = [])
     {
         if (!is_string($method)) {
             error_log("Method name must be a string\n");
@@ -32,15 +31,18 @@ trait RequestJson
             return false;
         }
 
-        $parameters["method"] = $method;
+        foreach ($parameters as &$val) {
+            // encoding to JSON array parameters, for example reply_markup
+            if (!is_numeric($val) && !is_string($val)) {
+                $val = json_encode($val);
+            }
+        }
+        $query = http_build_query($parameters);
 
-        $handle = curl_init("$this->api/");
+        $handle = curl_init("{$this->api}/{$method}?{$query}");
         curl_setopt($handle, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($handle, CURLOPT_CONNECTTIMEOUT, 5);
         curl_setopt($handle, CURLOPT_TIMEOUT, 60);
-        curl_setopt($handle, CURLOPT_POST, true);
-        curl_setopt($handle, CURLOPT_POSTFIELDS, json_encode($parameters));
-        curl_setopt($handle, CURLOPT_HTTPHEADER, ["Content-Type: application/json"]);
 
         return $this->request($handle);
     }
