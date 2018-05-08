@@ -1,6 +1,6 @@
 {
   "name": "php-brasil/telegram",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "minimum-stability": "dev",
   "license": "MIT",
   "authors": [
@@ -10,7 +10,9 @@
     }
   ],
   "require": {
-    "phpzm/phpee": "^1.0"
+    "phpzm/phpee": "^1.0",
+    "irazasyed/telegram-bot-sdk": "^2.0",
+    "monolog/monolog": "^1.23"
   },
   "autoload": {
     "psr-4": {
