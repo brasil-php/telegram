@@ -1,10 +1,10 @@
 <?php
 
-namespace PhpBrasil\Telegram\Model;
+namespace PhpBrasil\Telegram;
 
 /**
  * Class Match
- * @package PhpBrasil\Telegram\Model
+ * @package PhpBrasil\Telegram
  */
 class Match
 {

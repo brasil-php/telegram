@@ -2,7 +2,7 @@
 
 namespace PhpBrasil\Telegram;
 
-use PhpBrasil\Telegram\Model\Match;
+use PhpBrasil\Telegram\Match;
 
 /**
  * Trait Router
