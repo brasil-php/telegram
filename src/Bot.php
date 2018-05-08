@@ -1,25 +1,22 @@
 <?php
 
-namespace Telegram;
+namespace PhpBrasil\Telegram;
 
 use Exception;
 use Php\File;
+use Telegram\Bot\Exceptions\TelegramSDKException;
+use Telegram\Bot\Objects\Message;
 
 /**
  * Class Bot
- * @package Telegram
+ * @package PhpBrasil\Telegram
  */
 class Bot
 {
     /**
      * @trait
      */
-    use Request, RequestJson, RequestWebHook, Router;
-
-    /**
-     * @var string
-     */
-    private $token;
+    use Router, Logger;
 
     /**
      * @var string
@@ -32,63 +29,21 @@ class Bot
     private $body;
 
     /**
-     * Telegram constructor.
+     * Bot constructor.
      * @param string $token
+     * @throws TelegramSDKException
      */
     public function __construct($token)
     {
-        $this->token = $token;
-        $this->api = "https://api.telegram.org/bot{$token}";
+        $this->api = new Api($token);
     }
 
     /**
-     * @param $handle
-     * @return bool|mixed
+     * @param string $filename
+     * @return $this
      * @throws Exception
      */
-    function request($handle)
-    {
-        $response = curl_exec($handle);
-
-        if ($response === false) {
-            $errorNumber = curl_errno($handle);
-            $error = curl_error($handle);
-            error_log("Curl returned error {$errorNumber}: {$error}\n");
-            curl_close($handle);
-            return false;
-        }
-
-        $httpCode = intval(curl_getinfo($handle, CURLINFO_HTTP_CODE));
-        curl_close($handle);
-
-        if ($httpCode >= 500) {
-            // do not wat to DDOS server if something goes wrong
-            sleep(10);
-            return false;
-        }
-
-        if ($httpCode != 200) {
-            $response = json_decode($response, true);
-            error_log("Request has failed with error {$response['error_code']}: {$response['description']}\n");
-            if ($httpCode == 401) {
-                throw new Exception('Invalid access token provided');
-            }
-            return false;
-        }
-
-        $response = json_decode($response, true);
-        if (isset($response['description'])) {
-            error_log("Request was successful: {$response['description']}\n");
-        }
-        return $response['result'];
-    }
-
-    /**
-     * @param $filename
-     * @return Bot
-     * @throws Exception
-     */
-    public function actions($filename)
+    public function actions(string $filename)
     {
         if (!File::exists($filename)) {
             throw new Exception("File not found `{$filename}`");
@@ -107,16 +62,12 @@ class Bot
      * @return bool
      * @throws Exception
      */
-    function handle($body)
+    public function handleText(array $body)
     {
         $this->body = $body;
-        $message = $this->body['message'];
-        $chatId = $message['chat']['id'];
+        $message = get($this->body, 'message');
         if (!isset($message['text'])) {
-            return $this->apiRequest(
-                'sendMessage',
-                ['chat_id' => $chatId, 'text' => 'I understand only text messages']
-            );
+            return null;
         }
 
         $match = $this->match($message);
@@ -130,65 +81,72 @@ class Bot
         }
 
         return call_user_func_array(
-            $callable, [$this, $match, $message]
+            $callable,
+            [$this, $match, $message]
         );
     }
 
     /**
      * @param $url
-     * @throws Exception
+     * @throws TelegramSDKException
      */
-    public function remove($url)
+    public function remove(string $url)
     {
-        $this->apiRequest('setWebhook', ['url' => $url]);
+        $this->api->setWebhook(['url' => $url]);
     }
 
     /**
      * @param string $text
-     * @return bool
-     * @throws Exception
+     * @return Message
      */
-    public function reply($text)
+    public function reply(string $text)
     {
-        $chatId = $this->body['message']['chat']['id'];
-        return $this->apiRequest(
-            'sendMessage', ['chat_id' => $chatId, 'text' => $text]
+        $chatId = get($this->body, 'message.chat.id');
+        if (!$chatId) {
+            return null;
+        }
+        return $this->api->sendMessage([
+                'chat_id' => $chatId,
+                'text' => $text
+            ]
         );
     }
 
     /**
      * @param string $text
-     * @return bool
-     * @throws Exception
+     * @return Message
      */
-    public function replyTo($text)
+    public function replyTo(string $text)
     {
-        $chatId = $this->body['message']['chat']['id'];
-        $messageId = $this->body['message']['message_id'];
-        return $this->apiRequest(
-            'sendMessage',
-            ['chat_id' => $chatId, 'reply_to_message_id' => $messageId, 'text' => $text]
+        $chatId = get($this->body, 'message.chat.id');
+        $messageId = get($this->body, 'message.message_id');
+        return $this->api->sendMessage([
+                'chat_id' => $chatId,
+                'reply_to_message_id' => $messageId,
+                'text' => $text
+            ]
         );
     }
 
     /**
      * @param array $parameters
-     * @return bool|mixed
-     * @throws Exception
+     * @return Message
      */
-    public function answer($parameters)
+    public function answer(array $parameters)
     {
-        return $this->apiRequestJson('sendMessage', $parameters);
+        return $this->api->sendMessage($parameters);
     }
 
     /**
-     * @return bool
-     * @throws Exception
+     * @param string|int $messageId
+     * @return Message
      */
-    public function delete()
+    public function delete($messageId = '')
     {
-        $chatId = $this->body['message']['chat']['id'];
-        $messageId = $this->body['message']['message_id'];
-        return $this->apiRequest('deleteMessage', ['chat_id' => $chatId, 'message_id' => $messageId]);
+        $chatId = get($this->body, 'message.chat.id');
+        if (!$messageId) {
+            $messageId = get($this->body, 'message.message_id');
+        }
+        return $this->api->deleteMessage(['chat_id' => $chatId, 'message_id' => $messageId]);
     }
 }

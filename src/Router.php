@@ -1,12 +1,12 @@
 <?php
 
-namespace Telegram;
+namespace PhpBrasil\Telegram;
 
-use Telegram\Model\Match;
+use PhpBrasil\Telegram\Model\Match;
 
 /**
  * Trait Router
- * @package Telegram
+ * @package PhpBrasil\Telegram
  */
 trait Router
 {
@@ -38,7 +38,7 @@ trait Router
      */
     public function text($pattern, $callable, $options = [])
     {
-        return $this->on($pattern, $callable, $options);
+        return $this->on('text', $pattern, $callable, $options);
     }
 
     /**
@@ -72,7 +72,7 @@ trait Router
         }
 
         $candidates = null;
-        if (!isset($this->routes[$type])) {
+        if (isset($this->routes[$type])) {
             $candidates = $this->routes[$type];
         }
 
