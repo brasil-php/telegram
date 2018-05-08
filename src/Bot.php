@@ -2,6 +2,7 @@
 
 namespace PhpBrasil\Telegram;
 
+use function array_merge;
 use Exception;
 use Php\File;
 use Telegram\Bot\Exceptions\TelegramSDKException;
@@ -97,35 +98,37 @@ class Bot
 
     /**
      * @param string $text
+     * @param array $options
      * @return Message
      */
-    public function reply(string $text)
+    public function reply(string $text, array $options = [])
     {
         $chatId = get($this->body, 'message.chat.id');
         if (!$chatId) {
             return null;
         }
-        return $this->api->sendMessage([
-                'chat_id' => $chatId,
-                'text' => $text
-            ]
-        );
+        $parameters = [
+            'chat_id' => $chatId,
+            'text' => $text
+        ];
+        return $this->api->sendMessage(array_merge($options, $parameters));
     }
 
     /**
      * @param string $text
+     * @param array $options
      * @return Message
      */
-    public function replyTo(string $text)
+    public function replyTo(string $text, array $options = [])
     {
         $chatId = get($this->body, 'message.chat.id');
         $messageId = get($this->body, 'message.message_id');
-        return $this->api->sendMessage([
-                'chat_id' => $chatId,
-                'reply_to_message_id' => $messageId,
-                'text' => $text
-            ]
-        );
+        $parameters = [
+            'chat_id' => $chatId,
+            'reply_to_message_id' => $messageId,
+            'text' => $text
+        ];
+        return $this->api->sendMessage(array_merge($options, $parameters));
     }
 
     /**
