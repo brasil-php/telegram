@@ -124,9 +124,7 @@ $bot->text('^Hello|^Hi', function($bot) {
 
 Criando grupos de expressão regular é possível interagir com a mensagem de forma simples e rápida
 ```php
-$bot->text('How much is (?<n1>.*) \+ (?<n2>.*)\?', function ($bot, $match) {
-    /** @var Bot $bot */
-    /** @var Match $match */
+$bot->text('How much is (?<n1>.*) \+ (?<n2>.*)\?', function (Bot $bot, Match $match) {
     $parameters = $match->get('$parameters');
     if (count($parameters) !== 2) {
         return $bot->reply('Can`t resolve this math');
